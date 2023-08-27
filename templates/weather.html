@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .weather-info {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Weather Information</h1>
+
+        <!-- Input field for the city name -->
+        <label for="city-input">Enter City:</label>
+        <input type="text" id="city-input" placeholder="City Name">
+        <button onclick="getWeather()">Get Weather</button>
+
+        <div class="weather-info">
+            <h2>City: <span id="city"></span></h2>
+            <p>Latitude: <span id="latitude"></span></p>
+            <p>Longitude: <span id="longitude"></span></p>
+            <p>Temperature: <span id="temperature"></span>&deg;C</p>
+            <p>Humidity: <span id="humidity"></span></p>
+            <p>Windspeed: <span id="windspeed"></span> m/s</p>
+            <p>Wind direction: <span id="winddirection"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function getWeather() {
+            const city = document.getElementById('city-input').value;
+            fetch(`http://localhost:8000/get_weather_by_name?city=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('city').textContent = data.city;
+                    document.getElementById('latitude').textContent = data.latitude;
+                    document.getElementById('longitude').textContent = data.longitude;
+                    document.getElementById('temperature').textContent = data.temperature;
+                    // Check if humidity data exists
+                    if (data.humidity !== null && data.humidity !== undefined) {
+                        // Display humidity with '%' symbol
+                        document.getElementById('humidity').textContent = data.humidity + '%';
+                    } else {
+                        // Hide humidity if data is undefined
+                        document.getElementById('humidity').textContent = '';
+                    }
+                    document.getElementById('windspeed').textContent = data.windspeed;
+                    document.getElementById('winddirection').textContent = data.winddirection;
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
