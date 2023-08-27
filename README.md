@@ -13,9 +13,9 @@ Example Request:
 
 ```bash
 GET /get_weather_by_name?city=Berlin
-Example Response:
 ```
 
+Example Response:
 ```json
 {
   "city": "Berlin",
@@ -46,7 +46,7 @@ Requests: Used for making HTTP requests to external APIs.
 Flask-CORS: Used to enable CORS.  
 
 **Author**  
-This Flask app was created by Gaurav.
+This Flask app was created by Gaurav Aryal.
 
 **License**  
 This app is open-source and available under the MIT license.
