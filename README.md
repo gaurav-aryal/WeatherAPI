@@ -45,6 +45,16 @@ Geopy: Used for geocoding and reverse geocoding.
 Requests: Used for making HTTP requests to external APIs.  
 Flask-CORS: Used to enable CORS.  
 
+**Client side**  
+```bash
+python -m http.server 8080
+```
+
+Run Flask in such a way that it listens on all available network interfaces, making it accessible via both localhost and 127.0.0.1. Here's how you can do it:  
+```bash
+python weatherAPI.py runserver --host 0.0.0.0 --port 8000
+```
+
 **Author**  
 This Flask app was created by Gaurav Aryal.
 
