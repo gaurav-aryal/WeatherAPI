@@ -9,6 +9,19 @@ CORS(app)  # Enable CORS for your entire app
 # Create an instance of the Nominatim geocoder
 geolocator = Nominatim(user_agent="geoapiExercises")
 
+
+def _extract_current_humidity(api_data):
+    """Return humidity value matching current weather time if available."""
+    hourly = api_data.get("hourly", {})
+    times = hourly.get("time", [])
+    humidity_values = hourly.get("relativehumidity_2m", [])
+    current_time = api_data.get("current_weather", {}).get("time")
+    if current_time and current_time in times:
+        idx = times.index(current_time)
+        if idx < len(humidity_values):
+            return humidity_values[idx]
+    return None
+
 @app.route('/weather', methods=['GET'])
 def get_weather():
     # Get latitude and longitude from query parameters
@@ -30,16 +43,18 @@ def get_weather():
         current_weather = data.get('current_weather', {})
 
         # Extract weather data
-        temperature = current_weather.get('temperature_2m')
-        humidity = current_weather.get('relativehumidity_2m')
-        windspeed = current_weather.get('windspeed_10m')
+        temperature = current_weather.get('temperature')
+        windspeed = current_weather.get('windspeed')
+        winddirection = current_weather.get('winddirection')
+        humidity = _extract_current_humidity(data)
 
         weather_data = {
             'latitude': latitude,
             'longitude': longitude,
             'temperature': temperature,
             'humidity': humidity,
-            'windspeed': windspeed
+            'windspeed': windspeed,
+            'winddirection': winddirection
         }
 
         return jsonify(weather_data), 200
@@ -125,13 +140,12 @@ def get_weather_by_name():
         # Parse the JSON response
         data = response.json()
         current_weather = data.get('current_weather', {})
-        print('current_weather: ', current_weather)
 
         # Extract weather data
         temperature = current_weather.get('temperature')
-        humidity = current_weather.get('humidity')
         windspeed = current_weather.get('windspeed')
         winddirection = current_weather.get('winddirection')
+        humidity = _extract_current_humidity(data)
 
         weather_data = {
             'city': city,
