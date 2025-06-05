@@ -55,6 +55,13 @@ Run the Flask app using the following command:
 python weatherAPI.py
 ```
 
+## Running Tests
+To execute the test suite, run the following command from the project root:
+
+```bash
+pytest
+```
+
 **Author**  
 This Flask app was created by Gaurav Aryal.
 
