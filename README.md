@@ -3,14 +3,13 @@
 This Flask app provides various endpoints for weather-related operations.
 
 ## 1. Get Weather by City Name
-Endpoint: /get_weather_by_name  
-Method: GET  
-Parameters:  
-city (required): The name of the city.
+Endpoint: `/get_weather_by_name`
+Method: GET
+Parameters:
+- `city` (required): The name of the city.
 Description: This endpoint retrieves current weather information based on the provided city name.
 
 Example Request:
-
 ```bash
 GET /get_weather_by_name?city=Berlin
 ```
@@ -28,6 +27,29 @@ Example Response:
 }
 ```
 
+## 2. Get Weather by Coordinates
+Endpoint: `/weather`
+Method: GET
+Parameters:
+- `latitude` (required): Latitude of the location.
+- `longitude` (required): Longitude of the location.
+Description: Returns the current temperature, humidity, and wind speed for the provided coordinates.
+
+## 3. Reverse Geocode
+Endpoint: `/reverse_geocode`
+Method: GET
+Parameters:
+- `latitude` (required)
+- `longitude` (required)
+Description: Returns the closest address for the supplied coordinates.
+
+## 4. Get Coordinates by City
+Endpoint: `/get_coordinates`
+Method: GET
+Parameters:
+- `city` (required)
+Description: Looks up latitude and longitude for the provided city name.
+
 **How to Run**
 To run the Flask app, use the following command:
 
@@ -36,20 +58,23 @@ python weatherAPI.py
 ```
 The app listens on [http://localhost:8000/](http://localhost:8000/).
 
-**CORS**  
+**CORS**
 Cross-Origin Resource Sharing (CORS) is enabled for the entire app to allow requests from different origins. This ensures that frontend applications can make requests to this API.
 
-**Dependencies**  
-Flask: Used for creating the API.  
-Geopy: Used for geocoding and reverse geocoding.  
-Requests: Used for making HTTP requests to external APIs.  
-Flask-CORS: Used to enable CORS.  
+**Dependencies**
+Flask: Used for creating the API.
+Geopy: Used for geocoding and reverse geocoding.
+Requests: Used for making HTTP requests to external APIs.
+Flask-CORS: Used to enable CORS.
 
-**Client side**  
+**Client side**
 ```bash
 python -m http.server 8080
 ```
 
+
+Run Flask in such a way that it listens on all available network interfaces, making it accessible via both localhost and 127.0.0.1. Here's how you can do it:
+=======
 Run the Flask app using the following command:
 ```bash
 python weatherAPI.py
@@ -62,8 +87,8 @@ To execute the test suite, run the following command from the project root:
 pytest
 ```
 
-**Author**  
+**Author**
 This Flask app was created by Gaurav Aryal.
 
-**License**  
+**License**
 This app is open-source and available under the MIT license.
