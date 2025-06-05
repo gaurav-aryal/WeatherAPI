@@ -19,7 +19,10 @@ def get_weather():
         return jsonify({'error': 'Latitude and longitude parameters are required.'}), 400
 
     # Define the URL for the weather API
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
+    url = (
+        f"https://api.open-meteo.com/v1/forecast?latitude={latitude}"
+        f"&longitude={longitude}&current_weather=true"
+    )
 
     # Make a GET request to the weather API
     response = requests.get(url)
@@ -29,17 +32,26 @@ def get_weather():
         data = response.json()
         current_weather = data.get('current_weather', {})
 
-        # Extract weather data
-        temperature = current_weather.get('temperature_2m')
-        humidity = current_weather.get('relativehumidity_2m')
-        windspeed = current_weather.get('windspeed_10m')
+         # Extract weather data from keys provided by Open-Meteo
+        temperature = current_weather.get('temperature')
+        windspeed = current_weather.get('windspeed')
+        winddirection = current_weather.get('winddirection')
+        weathercode = current_weather.get('weathercode')
+
+        # Humidity data is provided hourly. Use the first available value if present.
+        humidity = None
+        hourly = data.get("hourly", {})
+        humidity_list = hourly.get("relativehumidity_2m")
+        if humidity_list:
+            humidity = humidity_list[0]
 
         weather_data = {
             'latitude': latitude,
             'longitude': longitude,
             'temperature': temperature,
-            'humidity': humidity,
-            'windspeed': windspeed
+            'windspeed': windspeed,
+            'winddirection': winddirection,
+            'weathercode': weathercode
         }
 
         return jsonify(weather_data), 200
@@ -116,7 +128,10 @@ def get_weather_by_name():
         return jsonify({'error': 'Location not found.'}), 404
 
     # Define the URL for the weather API
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
+    url = (
+        f"https://api.open-meteo.com/v1/forecast?latitude={latitude}"
+        f"&longitude={longitude}&current_weather=true"
+    )
 
     # Make a GET request to the weather API
     response = requests.get(url)
@@ -127,20 +142,20 @@ def get_weather_by_name():
         current_weather = data.get('current_weather', {})
         print('current_weather: ', current_weather)
 
-        # Extract weather data
+        # Extract weather data from keys provided by Open-Meteo
         temperature = current_weather.get('temperature')
-        humidity = current_weather.get('humidity')
         windspeed = current_weather.get('windspeed')
         winddirection = current_weather.get('winddirection')
+        weathercode = current_weather.get('weathercode')
 
         weather_data = {
             'city': city,
             'latitude': latitude,
             'longitude': longitude,
             'temperature': temperature,
-            'humidity': humidity,
             'windspeed': windspeed,
-            'winddirection': winddirection
+            'winddirection': winddirection,
+            'weathercode': weathercode
         }
 
         return jsonify(weather_data), 200
