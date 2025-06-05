@@ -60,3 +60,9 @@ This Flask app was created by Gaurav Aryal.
 
 **License**  
 This app is open-source and available under the MIT license.
+## Running Tests
+To execute the test suite, run the following command from the project root:
+
+```bash
+pytest
+```
