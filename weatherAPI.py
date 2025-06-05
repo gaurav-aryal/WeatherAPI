@@ -30,16 +30,24 @@ def get_weather():
         current_weather = data.get('current_weather', {})
 
         # Extract weather data
-        temperature = current_weather.get('temperature_2m')
-        humidity = current_weather.get('relativehumidity_2m')
-        windspeed = current_weather.get('windspeed_10m')
+        temperature = current_weather.get("temperature")
+        windspeed = current_weather.get("windspeed")
+        winddirection = current_weather.get("winddirection")
+
+        # Humidity data is provided hourly. Use the first available value if present.
+        humidity = None
+        hourly = data.get("hourly", {})
+        humidity_list = hourly.get("relativehumidity_2m")
+        if humidity_list:
+            humidity = humidity_list[0]
 
         weather_data = {
             'latitude': latitude,
             'longitude': longitude,
             'temperature': temperature,
             'humidity': humidity,
-            'windspeed': windspeed
+            'windspeed': windspeed,
+            'winddirection': winddirection
         }
 
         return jsonify(weather_data), 200
