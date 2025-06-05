@@ -32,11 +32,18 @@ def get_weather():
         data = response.json()
         current_weather = data.get('current_weather', {})
 
-        # Extract weather data from keys provided by Open-Meteo
+         # Extract weather data from keys provided by Open-Meteo
         temperature = current_weather.get('temperature')
         windspeed = current_weather.get('windspeed')
         winddirection = current_weather.get('winddirection')
         weathercode = current_weather.get('weathercode')
+
+        # Humidity data is provided hourly. Use the first available value if present.
+        humidity = None
+        hourly = data.get("hourly", {})
+        humidity_list = hourly.get("relativehumidity_2m")
+        if humidity_list:
+            humidity = humidity_list[0]
 
         weather_data = {
             'latitude': latitude,

@@ -34,7 +34,7 @@ To run the Flask app, use the following command:
 ```bash
 python weatherAPI.py
 ```
-The app will be accessible at http://localhost:8000/ or http://127.0.0.1:5000/.
+The app listens on [http://localhost:8000/](http://localhost:8000/).
 
 **CORS**  
 Cross-Origin Resource Sharing (CORS) is enabled for the entire app to allow requests from different origins. This ensures that frontend applications can make requests to this API.
@@ -50,9 +50,16 @@ Flask-CORS: Used to enable CORS.
 python -m http.server 8080
 ```
 
-Run Flask in such a way that it listens on all available network interfaces, making it accessible via both localhost and 127.0.0.1. Here's how you can do it:  
+Run the Flask app using the following command:
 ```bash
-python weatherAPI.py runserver --host 0.0.0.0 --port 8000
+python weatherAPI.py
+```
+
+## Running Tests
+To execute the test suite, run the following command from the project root:
+
+```bash
+pytest
 ```
 
 **Author**  
